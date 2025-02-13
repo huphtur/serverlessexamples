@@ -1,13 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-
 exports.handler = async (event) => {
   if (event.httpMethod === 'POST') {
     const { text } = JSON.parse(event.body);
-    const filePath = path.join('/tmp', 'storedText.txt');
 
-    // Save the text to a file
-    fs.writeFileSync(filePath, text);
+    // Save the text to an environment variable
+    process.env.STORED_TEXT = text;
 
     return {
       statusCode: 200,
