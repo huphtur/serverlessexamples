@@ -6,13 +6,22 @@ exports.handler = async (event) => {
     const { text } = JSON.parse(event.body);
     const filePath = path.join('/tmp', 'storedText.txt');
 
-    // Save the text to a file
-    fs.writeFileSync(filePath, text);
+    console.log('Saving text to:', filePath); // Debugging
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Text saved!' }),
-    };
+    try {
+      fs.writeFileSync(filePath, text);
+      console.log('Text saved successfully:', text); // Debugging
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ message: 'Text saved!' }),
+      };
+    } catch (error) {
+      console.error('Error saving text:', error); // Debugging
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Error saving text' }),
+      };
+    }
   }
 
   return {
