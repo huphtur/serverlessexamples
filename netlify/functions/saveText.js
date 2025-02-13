@@ -1,17 +1,22 @@
-let storedText = '';
+const fs = require('fs');
+const path = require('path');
 
 exports.handler = async (event) => {
   if (event.httpMethod === 'POST') {
     const { text } = JSON.parse(event.body);
-    storedText = text;
+    const filePath = path.join('/tmp', 'storedText.txt');
+
+    // Save the text to a file
+    fs.writeFileSync(filePath, text);
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Text saved!' })
+      body: JSON.stringify({ message: 'Text saved!' }),
     };
   }
 
   return {
     statusCode: 405,
-    body: JSON.stringify({ message: 'Method not allowed' })
+    body: JSON.stringify({ message: 'Method not allowed' }),
   };
 };
