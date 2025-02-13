@@ -1,5 +1,14 @@
+const fs = require('fs');
+const path = require('path');
+
 exports.handler = async () => {
-  const text = process.env.STORED_TEXT || 'No text available.';
+  const filePath = path.join('/tmp', 'storedText.txt');
+
+  // Read the text from the file
+  let text = 'No text available.';
+  if (fs.existsSync(filePath)) {
+    text = fs.readFileSync(filePath, 'utf8');
+  }
 
   return {
     statusCode: 200,
